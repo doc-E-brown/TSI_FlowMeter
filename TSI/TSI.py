@@ -386,4 +386,93 @@ class TSI(object):
                 err_msg = 'Unknown response received: %s' % err_msg
             raise TSIException(err_msg)
 
+    def get_serial_no(self):
+        """!
+        This method returns the serial number of the device
+        @param self The point for the object
+        @return The serial number of the device
+        """
+        #The command SN retrieves the serial number for the device
+        self.send_msg('SN')
+        acknowledge = self.read_msg()
+        if acknowledge == 'OK':
+            #The command was successfully received
+            return self.read_msg().strip(' ')
+        else:
+            #An error occurred
+            if acknowledge.find('ERR') > 0:
+                error = acknowledge.strip('ERR')
+                err_msg = 'Error %d returned requesting serial number' %\
+                          error
+            else:
+                err_msg = 'Unknown response received: %s' % err_msg
+            raise TSIException(err_msg)  
+
+    def get_cal_date(self):
+        """!
+        This method returns the current date of calibration of the device
+        @param self The pointer for the object
+        @return The date of previous calibration as a string in the format 
+        'month/day/year'
+        """
+        #The command DATE retrieves the last calibration date for the device
+        self.send_msg('DATE')
+        acknowledge = self.read_msg()
+        if acknowledge == 'OK':
+            #The command was successfully received
+            return self.read_msg().strip(' ')
+        else:
+            #An error occurred
+            if acknowledge.find('ERR') > 0:
+                error = acknowledge.strip('ERR')
+                err_msg = 'Error %d returned requesting calibration date' %\
+                          error
+            else:
+                err_msg = 'Unknown response received: %s' % err_msg
+            raise TSIException(err_msg)    
+
+    def get_model_no(self):
+        """!
+        This method returns the model number of the device
+        @param self The pointer for the object
+        @return The model number of the object
+        """
+        #The command MN retrieves the model number for the device
+        self.send_msg('MN')
+        acknowledge = self.read_msg()
+        if acknowledge == 'OK':
+            #The command was successfully received
+            return self.read_msg().strip(' ')
+        else:
+            #An error occurred
+            if acknowledge.find('ERR') > 0:
+                error = acknowledge.strip('ERR')
+                err_msg = 'Error %d returned requesting the model number' %\
+                          error
+            else:
+                err_msg = 'Unknown response received: %s' % err_msg
+            raise TSIException(err_msg)      
+
+    def get_firmware_rev(self):
+        """!
+        This method returns the model number of the device
+        @param self The pointer for the object
+        @return The model number of the object
+        """
+        #The command REV retrieves the firmware revision for the device
+        self.send_msg('REV')
+        acknowledge = self.read_msg()
+        if acknowledge == 'OK':
+            #The command was successfully received
+            return self.read_msg().strip(' ')
+        else:
+            #An error occurred
+            if acknowledge.find('ERR') > 0:
+                error = acknowledge.strip('ERR')
+                err_msg = 'Error %d returned requesting the firmware revision' %\
+                          error
+            else:
+                err_msg = 'Unknown response received: %s' % err_msg
+            raise TSIException(err_msg)  
+        
     #def set_trigger_level(self, source=
