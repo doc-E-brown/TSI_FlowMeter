@@ -45,6 +45,10 @@ class TSI(object):
     #Units variables
     STD_FLOW_RATE = 'S'
     VOL_FLOW_RATE = 'V'
+    
+    #Measurement variables
+    FLOW = 'F'
+    PRESSURE = 'P'
 
     def __init__(self, serial_port=None, debug_level=0):
         """!
@@ -63,7 +67,7 @@ class TSI(object):
         self.xonxoff = False
         self.parity = serial.PARITY_NONE
         self.stopbits = serial.STOPBITS_ONE
-        self.timeout = 2
+        self.timeout = 0.5
         self.rtscts = False
         self.dsrdtr = False
         #Create the serial object for the device
@@ -92,6 +96,10 @@ class TSI(object):
                     self.device.close()
                 except Exception, e:
                     print e.__str__()
+        else:
+            self.device.port = 'COM%d' % serial_port
+            self.port = self.device.port
+            self.device.open()
 
     def send_msg(self, message):
         """!
@@ -136,8 +144,10 @@ class TSI(object):
         """
         if samples <= 0:
             signed_samples = 1
-        if samples > 9999:
+        elif samples > 9999:
             signed_samples = 9999
+        else:
+            signed_samples = samples
         sample_str_len = len(str(int(samples)))
         if (sample_str_len < 4):
             adjusted_samples = '0' * (4 - sample_str_len) + \
@@ -171,7 +181,7 @@ class TSI(object):
         if (not flow) and (not temp) and (not press):
             return None
         #Append the number of samples
-        message_prefix += 's' % adjusted_samples
+        message_prefix += '%s' % adjusted_samples
         self.send_msg(message_prefix)
         acknowledge = self.read_msg()
         if acknowledge == 'OK':
@@ -262,8 +272,10 @@ class TSI(object):
         #Check the sample number has been entered correctly
         if samples <= 0:
             signed_samples = 1
-        if samples > 9999:
+        elif samples > 9999:
             signed_samples = 9999
+        else:
+            signed_samples = samples
         sample_str_len = len(str(int(samples)))
         if (sample_str_len < 4):
             adjusted_samples = '0' * (4 - sample_str_len) + \
@@ -315,8 +327,10 @@ class TSI(object):
         #Check the sample number has been entered correctly
         if rate <= 1:
             signed_rate = 1
-        if rate >= 1000:
+        elif rate >= 1000:
             signed_rate = 1000
+        else:
+            signed_samples = samples
         sample_str_len = len(str(int(signed_rate)))
         if (sample_str_len < 4):
             adjusted_rate = '0' * (4 - sample_str_len) + \
