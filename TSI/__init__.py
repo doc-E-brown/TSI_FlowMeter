@@ -7,6 +7,8 @@ __revision__ = "0.1"
 __date__ = "Tue Apr 15 20:04:32 EST 2014"
 __license__ = "GPL"
 ##IMPORTS#####################################################################
-import TSI
-import logging
-##############################################################################  
+import TSIProtocolLayer
+import TSIMeasure
+import TSIParams
+import TSILogger
+##############################################################################

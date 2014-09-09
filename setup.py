@@ -10,11 +10,11 @@ __license__ = "GPL"
 from distutils.core import setup
 ##############################################################################
 setup(
-name='TSI',
-description='Modules for use with the eBIRD',
-author='Ben Johnston',
-author_email='bjohnston24@gmail.com',
-version=__revision__,
-packages=['TSI'],
-license='GPL',
-long_description='')
+    name='TSI',
+    description='Modules for use with the TSI 4000 Series flow meter',
+    author='Ben Johnston',
+    author_email='bjohnston24@gmail.com',
+    version=__revision__,
+    packages=['TSI'],
+    license='GPL',
+    long_description='')
