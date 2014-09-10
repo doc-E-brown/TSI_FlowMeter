@@ -21,7 +21,6 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
 # Installer logs
 pip-log.txt
@@ -53,3 +52,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Vim swap files
+*.swp

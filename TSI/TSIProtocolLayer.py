@@ -15,7 +15,6 @@ from glob import glob
 ##############################################################################
 
 
-#Define an exception class
 class TSIException(Exception):
     """!
     Class to handle exceptions within the TSI module
@@ -40,7 +39,7 @@ class TSIException(Exception):
         return self.msg
 
 
-class TSIProtocolLayer():
+class TSIProtocolLayer(object):
 
     def __init__(self, serial_port=None, debug_level=0):
         """!
@@ -53,7 +52,6 @@ class TSIProtocolLayer():
         self.info_logger = logger(debug_level=self.debug_level)
         #Initialise the module
         #Set the communications parameters of the device
-        self.port = serial_port
         self.baudrate = 38400
         self.bytesize = serial.EIGHTBITS
         self.xonxoff = False
@@ -72,7 +70,7 @@ class TSIProtocolLayer():
                                     xonxoff=self.xonxoff,
                                     rtscts=self.rtscts,
                                     dsrdtr=self.dsrdtr)
-        if self.port is None:
+        if serial_port is None:
             if os.name is 'nt':
                 range_of_ports = []
                 for i in range(256):
@@ -92,8 +90,8 @@ class TSIProtocolLayer():
                         self.port = self.device.port
                         return
                     self.device.close()
-                except Exception, e:
-                    print e.__str__()
+                except:
+                    self.device.port = None
         else:
             self.device.port = serial_port
             self.port = self.device.port
