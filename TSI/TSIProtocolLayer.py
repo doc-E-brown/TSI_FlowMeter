@@ -4,7 +4,7 @@ Python module for operation of a TSI Flow Meter
 """
 __author__ = "Ben Johnston"
 __revision__ = "0.1"
-__date__ = ""
+__date__ = "Wed Sep 10 10:26:45 EST 2014"
 __copyright__ = "GPL License"
 
 ##IMPORTS#####################################################################
