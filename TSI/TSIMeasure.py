@@ -3,8 +3,8 @@
 Python module for operation of a TSI Flow Meter
 """
 __author__ = "Ben Johnston"
-__revision__ = "0.1"
-__date__ = ""
+__revision__ = "0.3"
+__date__ = "Mon Sep 15 12:57:41 EST 2014"
 __copyright__ = "GPL License"
 
 ##IMPORTS#####################################################################
@@ -103,7 +103,7 @@ class TSIMeasure(TSIParams):
             message_prefix += 'x'
         #If no tests are selected return None
         if (not flow) and (not temp) and (not press):
-            return None
+            yield None
         #Append the number of samples
         message_prefix += '%s' % adjusted_samples
         self.send_msg(message_prefix)
@@ -173,16 +173,14 @@ class TSIMeasure(TSIParams):
                                 #be returned prior to this point
                                 pass
 
-                else:
-                    #The data has been retrieved, return
-                    return result_dict
+                    yield result_dict
         else:
             if acknowledge.find('ERR') > 0:
                 error = acknowledge.strip('ERR')
                 err_msg = 'Error %d returned requesting measurement' %\
                           error
             else:
-                err_msg = 'Unknown response received: %s' % err_msg
+                err_msg = 'Unknown response received: %s' % acknowledge
             raise TSIException(err_msg)
 
     def measure_volume(self, samples=1):
